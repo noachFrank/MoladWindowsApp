@@ -16,6 +16,8 @@ namespace MoladWithSearch
         {
             InitializeComponent();
 
+            //cmbMonth.FormattingEnabled = false;
+
             cmbMonth.Items.Add("TISHREI");
             cmbMonth.Items.Add("CHESHVAN");
             cmbMonth.Items.Add("KISLEV");
@@ -37,19 +39,15 @@ namespace MoladWithSearch
         {
             //Closes Search Form
 
-            if (cmbMonth.Text == "")
+
+            if (!IsAMonth())
             {
-                MessageBox.Show("Please Enter A Month");
+                MessageBox.Show("Please Select A Month From The Drop-Down Menu");
             }
 
-            else if (txtYear.Text == "")
+            else if (!IsGoodYear())
             {
-                MessageBox.Show("Please Enter A Year");
-            }
-
-            else if (int.Parse(txtYear.Text) <= 3660)
-            {
-                MessageBox.Show("Please Enter A Year After 3661");
+                MessageBox.Show("Please Enter A Year Between 3762 And 13759");
             }
 
             else
@@ -71,6 +69,52 @@ namespace MoladWithSearch
             //Retruns Seached Year
 
             return txtYear.Text;
+        }
+
+        public bool IsAMonth()
+        {
+            // checks if input month is correct
+
+            List<string> Year = new List<string>();
+
+            Year.Add("TISHREI");
+            Year.Add("CHESHVAN");
+            Year.Add("KISLEV");
+            Year.Add("TEVES");
+            Year.Add("SHEVAT");
+            Year.Add("ADAR 1");
+            Year.Add("ADAR 2");
+            Year.Add("NISSAN");
+            Year.Add("IYAR");
+            Year.Add("SIVAN");
+            Year.Add("TAMUZ");
+            Year.Add("AV");
+            Year.Add("ELUL");
+
+
+            for (int i = 0; i < Year.Count; i++)
+            {
+                if (cmbMonth.Text.ToUpper() == Year[i])
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+
+        }
+
+        public bool IsGoodYear()
+        {
+            // checks if input year is correct
+            int year;
+
+            if (txtYear.Text == "" || !int.TryParse(txtYear.Text, out year) || int.Parse(txtYear.Text) <= 3761 || int.Parse(txtYear.Text) >= 13760 )
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

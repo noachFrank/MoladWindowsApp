@@ -35,27 +35,28 @@
             // 
             // cmbMonth
             // 
-            this.cmbMonth.Font = new System.Drawing.Font("Modern No. 20", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbMonth.AllowDrop = true;
+            this.cmbMonth.Font = new System.Drawing.Font("Modern No. 20", 22.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbMonth.FormattingEnabled = true;
             this.cmbMonth.Location = new System.Drawing.Point(60, 69);
             this.cmbMonth.Name = "cmbMonth";
-            this.cmbMonth.Size = new System.Drawing.Size(270, 70);
+            this.cmbMonth.Size = new System.Drawing.Size(270, 46);
             this.cmbMonth.TabIndex = 0;
             // 
             // txtYear
             // 
-            this.txtYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtYear.Location = new System.Drawing.Point(439, 62);
             this.txtYear.Name = "txtYear";
-            this.txtYear.Size = new System.Drawing.Size(270, 75);
+            this.txtYear.Size = new System.Drawing.Size(270, 49);
             this.txtYear.TabIndex = 1;
             // 
             // btnSearch
             // 
-            this.btnSearch.Font = new System.Drawing.Font("Aharoni", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(208, 215);
+            this.btnSearch.Font = new System.Drawing.Font("Aharoni", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(257, 228);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(273, 138);
+            this.btnSearch.Size = new System.Drawing.Size(240, 81);
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;

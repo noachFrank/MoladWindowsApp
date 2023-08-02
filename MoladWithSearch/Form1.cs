@@ -17,14 +17,15 @@ namespace MoladWithSearch
         {
             InitializeComponent();
 
-            txtMolad.Text = _molad.ToString();
+            StartCorrectly();
 
-            txtMonth.Text = $"Molad Of {_cycle19Year[_index]} {_jewishYear}";
-
+            Display();
 
         }
 
         private DateTime _molad = new DateTime(2016, 10, 01, 14, 40, 13, 000);
+
+        private int _chalakim = 4;
 
         private static List<string> _cycle19Year = JewishMonths();
 
@@ -32,20 +33,17 @@ namespace MoladWithSearch
 
         private int _index = 0;
 
-
-
         private void btnNext_Click(object sender, EventArgs e)
         {
             // Increments The Molad By One And Displays It
 
+            btnPrev.Enabled = true;
+
             GoForward();
 
-            btnNext.Enabled = _molad <= DateTime.MaxValue.AddMinutes(-1);
+            btnNext.Enabled = _molad <= DateTime.MaxValue.AddDays(-4);
 
-
-            txtMolad.Text = _molad.ToString();
-
-            txtMonth.Text = $"Molad Of {_cycle19Year[_index]} {_jewishYear}";
+            Display();
         }
 
         private void btnPrev_Click_1(object sender, EventArgs e)
@@ -53,40 +51,61 @@ namespace MoladWithSearch
 
             // Decrements The Molad By One And Displays It
 
+            btnNext.Enabled = true;
+
             GoBackward();
 
             btnPrev.Enabled = _molad >= DateTime.MinValue.AddMonths(1);
 
-            txtMolad.Text = _molad.ToString();
-
-            txtMonth.Text = $"Molad Of {_cycle19Year[_index]} {_jewishYear}";
+            Display();
 
         }
 
         private void btnSearch_Click_1(object sender, EventArgs e)
         {
-            // Opens Form To Enter Search And Displays It
+            // Opens Form To Enter Search With Jewish Dates And Displays It
 
             Searcher s = new Searcher();
 
             s.ShowDialog();
 
-            if (s.GetMonthSearch() == "" || s.GetYearSearch() == "")
+            if (!s.IsAMonth())
             {
                 return;
             }
 
+            else if (!s.IsGoodYear())
+            {
+                return;
+            }
 
-            MoladSearch(s.GetMonthSearch(), int.Parse(s.GetYearSearch()));
+            JewishSearch(s.GetMonthSearch().ToUpper(), int.Parse(s.GetYearSearch()));
 
-            txtMolad.Text = _molad.ToString();
+            Display();
 
-            txtMonth.Text = $"Molad Of {_cycle19Year[_index]} {_jewishYear}";
-
+            btnNext.Enabled = true;
+            btnPrev.Enabled = true;
 
         }
 
-        private void MoladSearch(string month, int year)
+        private void btnSearchEnglish_Click(object sender, EventArgs e)
+        {
+            // Opens Form To Enter Search With English Dates And Displays It
+
+            EnglishSearch es = new EnglishSearch();
+
+            es.ShowDialog();
+
+            EnglishSearch(es.SearchedDate());
+
+            Display();
+
+            btnNext.Enabled = true;
+            btnPrev.Enabled = true;
+
+        }
+
+        private void JewishSearch(string month, int year)
         {
             // Searches For Input Molad
 
@@ -94,7 +113,7 @@ namespace MoladWithSearch
             {
                 while (true)
                 {
-                    if (month == _cycle19Year[_index] && year == _jewishYear)
+                    if (month.Contains(_cycle19Year[_index]) && year == _jewishYear)
                     {
                         break;
                     }
@@ -112,7 +131,8 @@ namespace MoladWithSearch
             {
                 while (true)
                 {
-                    if (month == _cycle19Year[_index] && year == _jewishYear)
+                    if (month.Contains(_cycle19Year[_index]) && year == _jewishYear)
+
                     {
                         break;
                     }
@@ -123,6 +143,45 @@ namespace MoladWithSearch
                     }
                 }
             }
+        }
+
+        private void EnglishSearch(DateTime dt)
+        {
+            // Searches For Closest Molad To Input Date
+           
+
+            if (dt >= _molad)
+            {
+                while (true)
+                {
+                    if (_molad <= dt.AddDays(14).AddHours(19) && _molad >= dt.AddDays(-14).AddHours(-19))
+                    {
+                        break;
+                    }
+
+                    else
+                    {
+                        GoForward();
+                    }
+                }
+            }
+
+            else if (dt <= _molad)
+            {
+                while (true)
+                {
+                    if (_molad <= dt.AddDays(14).AddHours(12) && _molad >= dt.AddDays(-14).AddHours(-12))
+                    {
+                        break;
+                    }
+
+                    else
+                    {
+                        GoBackward();
+                    }
+                }
+            }
+
         }
 
         private void GoForward()
@@ -144,9 +203,20 @@ namespace MoladWithSearch
                 _index++;
             }
 
-            _molad = _molad.AddDays(29).AddHours(12).AddMinutes(44).AddSeconds(3).AddMilliseconds(333);
+            _chalakim++;
 
 
+            if (_chalakim == 18)
+            {
+                _molad = _molad.AddDays(29).AddHours(12).AddMinutes(45);
+
+                _chalakim = 0;
+            }
+            else
+            {
+                _molad = _molad.AddDays(29).AddHours(12).AddMinutes(44);
+
+            }
 
         }
 
@@ -169,7 +239,82 @@ namespace MoladWithSearch
                 _index--;
             }
 
-            _molad = _molad.AddDays(-29).AddHours(-12).AddMinutes(-44).AddSeconds(-3).AddMilliseconds(-333);
+            _chalakim--;
+
+            if (_chalakim < 0)
+            {
+                _molad = _molad.AddDays(-29).AddHours(-12).AddMinutes(-45);
+
+                _chalakim = 17;
+            }
+            else
+            {
+                _molad = _molad.AddDays(-29).AddHours(-12).AddMinutes(-44);
+
+            }
+
+
+
+        }
+
+        private void btnCurrent_Click(object sender, EventArgs e)
+        {
+            StartCorrectly();
+
+            Display();
+        }
+
+        private void StartCorrectly()
+        {
+            //Starts Display At Current Month
+
+            while (true)
+            {
+                if (_molad <= DateTime.Now)
+                {
+                    if (_molad >= DateTime.Now && _molad <= DateTime.Now.AddMonths(1))
+                    {
+                        break;
+                    }
+
+                    else
+                    {
+                        GoForward();
+                    }
+                }
+
+                else
+                {
+                    if (_molad >= DateTime.Now && _molad <= DateTime.Now.AddMonths(1))
+                    {
+                        break;
+                    }
+
+                    else
+                    {
+                        GoBackward();
+                    }
+                }
+            }
+        }
+
+        private void Display()
+        {
+            // displays molad
+
+            txtMolad.Text = $"{_molad.DayOfWeek.ToString()}  {_molad.Month}/{_molad.Day}/{_molad.Year}  {_molad.ToString("h:mm tt")}";
+            
+            if (_chalakim == 1)
+            {
+                txtMolad.Text += $"  And {_chalakim} Chelek";
+            }
+            else if (_chalakim != 0)
+            {
+                txtMolad.Text += $"  And {_chalakim} Chalakim";
+            }
+
+            txtMonth.Text = $"Molad Of {_cycle19Year[_index]} {_jewishYear}";
+
 
 
         }
@@ -331,8 +476,9 @@ namespace MoladWithSearch
 
 
         }
+
     }
 }
 
-    
+
 

@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnglishSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EnglishSearch.Designer.cs">
+      <DependentUpon>EnglishSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     <Compile Include="Searcher.Designer.cs">
       <DependentUpon>Searcher.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="EnglishSearch.resx">
+      <DependentUpon>EnglishSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
